@@ -85,6 +85,34 @@ package utils
 			return rad * (180 / Math.PI);
 		}
 		
+		/**
+		 * Rotates a point around another point and returns its new position.
+		 * Blatantly stolen from http://tdotblog.info/?q=node/16.
+		 * @param	p	The point to rotate.
+		 * @param	o	The origin (or the point to rotate around).
+		 * @param	d	The amount of degrees to rotate it.
+		 * @return	The new position of the point.
+		 */
+		public static function rotatePoint(p:FlxPoint, o:FlxPoint, d:Number):FlxPoint
+		{
+			var np:FlxPoint = new FlxPoint();
+			p.x += (0 - o.x);
+			p.y += (0 - o.y);
+			np = rotate(p, d);
+			np.x += (0 + o.x);
+			np.y += (0 + o.y)
+			
+			return np;
+		}
+		
+		public static function rotate(p:FlxPoint, d:Number):FlxPoint
+		{
+			var np:FlxPoint = new FlxPoint();
+			np.x = (p.x * Math.cos(d * (Math.PI/180))) - (p.y * Math.sin(d * (Math.PI/180)));
+			np.y = Math.sin(d * (Math.PI / 180)) * p.x + Math.cos(d * (Math.PI / 180)) * p.y;
+			return np;
+		}
+		
 		public function Calc() {}
 	}
 
