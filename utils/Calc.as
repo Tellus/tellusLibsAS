@@ -113,7 +113,34 @@ package utils
 			return np;
 		}
 		
-		public function Calc() {}
+		public function Calc() { }
+		
+		/**
+		 * The second part of modulo, returns the quotient (fuck, I've needed this).
+		 * I should probably make it more effective as I learn, but this is golden!
+		 * @param	a	The number to BE divided (as in divident/a).
+		 * @param	d	The number to divided (as in b/divisor).
+		 * @return	The QUotiENT from the division. Note how mod returns the rest instead.
+		 */
+		public static function div(a:int, d:int):int
+		{
+			var q:int = 0;
+			var r:int = a;
+			
+			while (r > d)
+			{
+				r -= d;
+				q++;
+			}
+			
+			if (a < 0 && r > 0)
+			{
+				r = d - r;
+				q = -(q + 1);
+			}
+			
+			return q;
+		}
 	}
 
 }
