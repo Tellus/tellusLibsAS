@@ -1,4 +1,4 @@
-package utils 
+package dk.homestead.utils
 {
 	import org.flixel.*;
 	

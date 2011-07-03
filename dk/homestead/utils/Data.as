@@ -1,7 +1,5 @@
-package utils 
+package dk.homestead.utils 
 {
-	import org.flixel.*;
-	
 	/**
 	 * Static class with various data manipulation functions. They have a good use for 
 	 * @author Johannes

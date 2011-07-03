@@ -1,29 +1,28 @@
-package utils 
+package dk.homestead.utils 
 {
 	import flash.geom.Point;
-	import org.flixel.FlxPoint;
 	/**
 	 * Static class with a bunch of math functions, primarily within geometry.
 	 * @author Johannes L. Borresen
 	 */
 	public final class Calc
 	{
-		public static function vectorLength(input:FlxPoint):Number
+		public static function vectorLength(input:Point):Number
 		{
 			return Math.sqrt(Math.pow(input.x, 2) + Math.pow(input.y, 2));
 		}
 		
-		public static function calcVectorLength(pt1:FlxPoint, pt2:FlxPoint):Number
+		public static function calcVectorLength(pt1:Point, pt2:Point):Number
 		{
 			return (Math.sqrt(Math.pow(pt2.x - pt1.x,2) + Math.pow(pt2.y - pt1.y,2)));
 		}
 		
-		public static function calcUnitVector(pt1:FlxPoint, pt2:FlxPoint):FlxPoint
+		public static function calcUnitVector(pt1:Point, pt2:Point):Point
 		{
 			// Calculate the total movement vector:
-			var totalMoveVector:FlxPoint = new FlxPoint(pt2.x - pt1.x, pt2.y - pt1.y);
+			var totalMoveVector:Point = new Point(pt2.x - pt1.x, pt2.y - pt1.y);
 			
-			var returnP:FlxPoint = new FlxPoint(totalMoveVector.x / calcVectorLength(pt1, pt2), totalMoveVector.y / calcVectorLength(pt1, pt2));
+			var returnP:Point = new Point(totalMoveVector.x / calcVectorLength(pt1, pt2), totalMoveVector.y / calcVectorLength(pt1, pt2));
 			
 			return returnP;
 		}
@@ -54,18 +53,6 @@ package utils
 		}
 		
 		/**
-		 * Calculates the distance between two flash points. Always positive.
-		 * @param	pt1	First point.
-		 * @param	pt2	Second point.
-		 * @return	Distance, always positive.
-		 */		
-		public static function distanceBetweenFlxPoints(pt1:FlxPoint, pt2:FlxPoint):Number
-		{
-			return distanceBetweenCoords(pt1.x, pt1.y, pt2.x, pt2.y);
-		}
-		
-		
-		/**
 		 * Calculates radians from degrees.
 		 * @param	deg	Angle in degrees to convert.
 		 * @return
@@ -93,9 +80,9 @@ package utils
 		 * @param	d	The amount of degrees to rotate it.
 		 * @return	The new position of the point.
 		 */
-		public static function rotatePoint(p:FlxPoint, o:FlxPoint, d:Number):FlxPoint
+		public static function rotatePoint(p:Point, o:Point, d:Number):Point
 		{
-			var np:FlxPoint = new FlxPoint();
+			var np:Point = new Point();
 			p.x += (0 - o.x);
 			p.y += (0 - o.y);
 			np = rotate(p, d);
@@ -105,9 +92,9 @@ package utils
 			return np;
 		}
 		
-		public static function rotate(p:FlxPoint, d:Number):FlxPoint
+		public static function rotate(p:Point, d:Number):Point
 		{
-			var np:FlxPoint = new FlxPoint();
+			var np:Point = new Point();
 			np.x = (p.x * Math.cos(d * (Math.PI/180))) - (p.y * Math.sin(d * (Math.PI/180)));
 			np.y = Math.sin(d * (Math.PI / 180)) * p.x + Math.cos(d * (Math.PI / 180)) * p.y;
 			return np;
@@ -122,10 +109,10 @@ package utils
 		 * @param	d	The number to divided (as in b/divisor).
 		 * @return	The QUotiENT from the division. Note how mod returns the rest instead.
 		 */
-		public static function div(a:int, d:int):int
+		public static function div(a:Number, d:Number):Number
 		{
-			var q:int = 0;
-			var r:int = a;
+			var q:Number = 0;
+			var r:Number = a;
 			
 			while (r > d)
 			{
@@ -140,6 +127,18 @@ package utils
 			}
 			
 			return q;
+		}
+		
+		/**
+		 * Alternative quotient calculation, using modulo and my classic method.
+		 * @param	toDivide	The number to divide. toDivide/divideBy
+		 * @param	divideBy	The number to divide by. toDivide/divideBy
+		 * @return	The quotient. While the input parameters can be numbers, the quotient will always be an integer.
+		 */
+		public static function div2(toDivide:Number, divideBy:Number):int
+		{
+			var rest:Number = toDivide % divideBy; // Remainder. Removing this we get a clean quotient.
+			return (toDivide-rest) / divideBy;
 		}
 	}
 
