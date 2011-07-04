@@ -6,7 +6,7 @@ package dk.homestead.utils
 	 * Static class with drawing functions the I was redoing everywhere anyway.
 	 * @author Johannes
 	 */
-	public class Draw
+	public final  class Draw
 	{	
 		public function Draw(){}
 	

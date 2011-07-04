@@ -4,7 +4,7 @@ package dk.homestead.utils
 	 * Static class with various data manipulation functions. They have a good use for 
 	 * @author Johannes
 	 */
-	public class Data
+	public final class Data
 	{	
 		public function Data() { }
 		
