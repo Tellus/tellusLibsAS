@@ -23,5 +23,25 @@ package dk.homestead.utils
 			
 			return array;
 		}
+		
+		/**
+		 * Counts the number of occurrences of a specific match within a string
+		 * @param	input	The string in which to search.
+		 * @param	match	The string being sought.
+		 * @return	Number of matches.
+		 */
+		public static function CountStrings(input:String, match:String):int
+		{
+			var s:String = input; // Temp string to avoid messing with the original.
+			var count:int = 0;	// Counter for hits. Will be returned.
+			while (s.indexOf(match) > -1) // While we still have a hit.
+			{
+				count++; // Iterate the hit counter.
+				s = s.substring(input.indexOf(match) + 1); // Remove the string parsed so far.
+			}
+			// Return the final count.
+			trace("CountStrings returning " + count.toString() + ".");
+			return count;
+		}
 	}	
 }
