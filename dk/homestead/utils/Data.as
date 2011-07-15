@@ -43,5 +43,21 @@ package dk.homestead.utils
 			trace("CountStrings returning " + count.toString() + ".");
 			return count;
 		}
+		
+		/**
+		 * Reduces a vector of objects to a true/false array. False if an index is a null reference, true otherwise.
+		 * @param	input	The Vector object to reduce.
+		 * @return	The reduced Vector as an Array.
+		 */
+		public static function GetBinaryArray(input:Vector.<Object>):Array
+		{
+			var ret:Array = new Array();
+			for each (var o:Object in input)
+			{
+				if (o == null) ret.push(false);
+				else ret.push(true);
+			}
+			return ret;
+		}
 	}	
 }
