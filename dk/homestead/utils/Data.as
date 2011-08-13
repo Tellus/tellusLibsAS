@@ -13,10 +13,10 @@ package dk.homestead.utils
 		 * @param	numSlots	Size of array (remember, 10 will give you an array with numbers 0 to 9).
 		 * @return	Array of integers.
 		 */
-		public static function fillArray(numSlots:uint):Array
+		public static function FillArray(numSlots:uint, startIndex:int = 0):Array
 		{
 			var array:Array = new Array();
-			for (var i:uint = 0; i < numSlots; i++)
+			for (var i:uint = startIndex; i < numSlots + startIndex; i++)
 			{
 				array.push(i);
 			}
