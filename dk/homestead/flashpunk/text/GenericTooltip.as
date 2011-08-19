@@ -19,6 +19,8 @@ package dk.homestead.flashpunk.text
 	 */
 	public class GenericTooltip extends EntityGroup 
 	{
+		[Embed(source = '../../../../../defragged/img/fonts/arcade.TTF', embedAsCFF="false", fontFamily = 'MONOTYPE_FONT')] public static const MONOTYPE_FONT:Class;
+		
 		public var Title:String;
 		
 		public var Content:String;
@@ -89,24 +91,31 @@ package dk.homestead.flashpunk.text
 			_createTitle();
 			_createContent();
 			
-			MoveToTop(ContentText);
-			MoveToTop(TitleText);
+			MoveToBottom(Background);
+			//MoveToTop(ContentText);
+			//MoveToTop(TitleText);
 			
 			UpdateEntityLocations();
 		}
 		
 		private function _createTitle():void
 		{
-			TitleText = new Entity(0, 0, new Text(Title, 0, 0, width));
-			var t:Text = TitleText.graphic as Text;
+			// TitleText = new Entity(0, 0, new Text(Title, 0, 0, width));
+			TitleText = new Entity(0, 0, new TextBox(Title, width));
+			var t:TextBox = TitleText.graphic as TextBox;
+			t.size = 12;
+			t.font = "MONOTYPE_FONT";
 			TitleText.setHitbox(t.width, t.height);
 			add(TitleText);
 		}
 		
 		private function _createContent():void
 		{
-			ContentText = new Entity(0, 0, new Text(Content, 0, 0, width));
-			var t:Text = ContentText.graphic as Text;
+			// ContentText = new Entity(0, 0, new Text(Content, 0, 0, width));
+			ContentText = new Entity(0, 0, new TextBox(Content, width));
+			var t:TextBox = ContentText.graphic as TextBox;
+			t.size = 11;
+			t.font = "MONOTYPE_FONT";
 			ContentText.setHitbox(t.width, t.height);
 			add(ContentText);
 		}
@@ -134,6 +143,7 @@ package dk.homestead.flashpunk.text
 				throw new Error("Invalid background data passed.");
 			}
 			add(e);
+			Background = e;
 		}
 		
 		/**

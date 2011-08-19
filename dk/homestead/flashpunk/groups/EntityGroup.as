@@ -1,5 +1,6 @@
 package dk.homestead.flashpunk.groups 
 {
+	import flash.events.SecurityErrorEvent;
 	import flash.geom.Point;
 	import net.flashpunk.Entity;
 	import net.flashpunk.Graphic;
@@ -142,7 +143,20 @@ package dk.homestead.flashpunk.groups
 		{
 			super.render();
 			
-			for each (var e:Entity in members) if (e && e.visible) e.render();
+			// for each (var e:Entity in members) if (e && e.visible) e.render();
+			var e:Entity;
+			for (var i:int = members.length; i > 0; i--)
+			{
+				try 
+				{
+					e = members[i - 1];
+					if (e && e.visible) e.render();
+				}
+				catch (err:Error)
+				{
+					// Do nothing.
+				}
+			}
 		}
 		
 		/**
@@ -167,6 +181,8 @@ package dk.homestead.flashpunk.groups
 		override public function update():void 
 		{
 			super.update();
+			
+			for each (var e:Entity in members) if (e && e.visible) e.update();
 			
 			// Reset movement bool.
 			movedThisFrame = false;
