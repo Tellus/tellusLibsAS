@@ -140,6 +140,28 @@ package dk.homestead.utils
 			var rest:Number = toDivide % divideBy; // Remainder. Removing this we get a clean quotient.
 			return (toDivide-rest) / divideBy;
 		}
+		
+		/**
+		 * Randomly picks a sign, positive or negative.
+		 * @param	chance	The percentage between positive and negative. Higher number, more negatives.
+		 * @return	1 as a positive, -1 as a negative.
+		 */
+		public static function RandomSign(chance:Number = 0.5):int
+		{
+			var r:int = Math.random() > chance ? -1: 1;
+			return r;
+		}
+		
+		/**
+		 * Randomly picks true or false, like a coinflip.
+		 * @return	True or false. Hopefully, you can't predict which :D
+		 */
+		public static function coinFlip():Boolean
+		{
+			var r:Boolean = Math.random() <= 0.5;
+			// trace("Coinflip: " + r.toString());
+			return r;
+		}
 	}
 
 }

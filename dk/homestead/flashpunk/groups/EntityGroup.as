@@ -55,6 +55,41 @@ package dk.homestead.flashpunk.groups
 		 */
 		protected var movedThisFrame:Boolean = false;
 		
+		/**
+		 * Whether the members should be hidden from the parent world (true) or directly added
+		 * to it (false);
+		 */
+		private var _proxy:Boolean = true;
+		
+		/**
+		 * Whether the members should be hidden from the parent world (true) or directly added
+		 * to it (false);
+		 */
+		public function get Proxy():Boolean { return _proxy; }
+		
+		/**
+		 * Whether the members should be hidden from the parent world (true) or directly added
+		 * to it (false);
+		 */
+		public function set Proxy(value:Boolean):void
+		{
+			if (value == _proxy) return;
+			
+			_proxy = value;
+			
+			var e:Entity;
+			if (!members || !world) return;
+			if (_proxy)
+			{
+				for each (e in members) world.remove(e);
+			}
+			else
+			{
+				for each (e in members) world.add(e);
+			}
+			trace("Changed proxy mode for " + members.length + " entities.")
+		}
+		
 		public function EntityGroup(w:int = 0, h:int = 0) 
 		{
 			super();
@@ -69,7 +104,30 @@ package dk.homestead.flashpunk.groups
 		public function add(e:Entity):void
 		{
 			members.push(e);
+			
+			if (!Proxy) world.add(e);
+			
 			updateLayout();
+		}
+		
+		override public function added():void 
+		{
+			super.added();
+			
+			if (!Proxy)
+			{
+				for each (var e:Entity in members) world.add(e);
+			}
+		}
+		
+		override public function removed():void 
+		{
+			if (!Proxy)
+			{
+				for each (var e:Entity in members) world.remove(e);
+			}
+			
+			super.removed();
 		}
 		
 		/**
@@ -78,6 +136,8 @@ package dk.homestead.flashpunk.groups
 		 */
 		public function remove(e:Entity):void
 		{
+			if (!Proxy) world.remove(e);
+			
 			members.splice(members.indexOf(e), 1);
 			updateLayout();
 		}
@@ -139,22 +199,34 @@ package dk.homestead.flashpunk.groups
 			members.push(e);
 		}
 		
+		public function SetScroll(sx:int, sy:int):void
+		{
+			for each (var e:Entity in members)
+			{
+				e.graphic.scrollX = sx;
+				e.graphic.scrollY = sy;
+			}
+		}
+		
 		override public function render():void 
 		{
 			super.render();
 			
 			// for each (var e:Entity in members) if (e && e.visible) e.render();
-			var e:Entity;
-			for (var i:int = members.length; i > 0; i--)
+			if (Proxy)
 			{
-				try 
+				var e:Entity;
+				for (var i:int = members.length; i > 0; i--)
 				{
-					e = members[i - 1];
-					if (e && e.visible) e.render();
-				}
-				catch (err:Error)
-				{
-					// Do nothing.
+					try 
+					{
+						e = members[i - 1];
+						if (e && e.visible) e.render();
+					}
+					catch (err:Error)
+					{
+						// Do nothing.
+					}
 				}
 			}
 		}
@@ -182,7 +254,7 @@ package dk.homestead.flashpunk.groups
 		{
 			super.update();
 			
-			for each (var e:Entity in members) if (e && e.visible) e.update();
+			if (Proxy) for each (var e:Entity in members) if (e && e.visible) e.update();
 			
 			// Reset movement bool.
 			movedThisFrame = false;

@@ -2,7 +2,10 @@ package dk.homestead.flashpunk.text
 {
 	import dk.homestead.flashpunk.groups.*;
 	import flash.events.ActivityEvent;
+	import flash.geom.Rectangle;
 	import net.flashpunk.Entity;
+	import net.flashpunk.FP;
+	import net.flashpunk.graphics.Canvas;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Text;
 	import net.flashpunk.utils.Input;
@@ -87,9 +90,12 @@ package dk.homestead.flashpunk.text
 			
 			MoveFactorX = MoveFactorY = 1.0;
 			
-			_createBackground(bg);
 			_createTitle();
 			_createContent();
+			
+			setHitbox(w, ContentText.height + TitleText.height);
+			
+			_createBackground(bg);
 			
 			MoveToBottom(Background);
 			//MoveToTop(ContentText);
@@ -101,10 +107,9 @@ package dk.homestead.flashpunk.text
 		private function _createTitle():void
 		{
 			// TitleText = new Entity(0, 0, new Text(Title, 0, 0, width));
-			TitleText = new Entity(0, 0, new TextBox(Title, width));
+			TitleText = new Entity(0, 0, new TextBox(Title, width, 12));
 			var t:TextBox = TitleText.graphic as TextBox;
-			t.size = 12;
-			t.font = "MONOTYPE_FONT";
+			// t.font = "MONOTYPE_FONT";
 			TitleText.setHitbox(t.width, t.height);
 			add(TitleText);
 		}
@@ -112,12 +117,13 @@ package dk.homestead.flashpunk.text
 		private function _createContent():void
 		{
 			// ContentText = new Entity(0, 0, new Text(Content, 0, 0, width));
-			ContentText = new Entity(0, 0, new TextBox(Content, width));
+			ContentText = new Entity(0, 0, new TextBox(Content, width, 11));
 			var t:TextBox = ContentText.graphic as TextBox;
-			t.size = 11;
-			t.font = "MONOTYPE_FONT";
+			// t.font = "MONOTYPE_FONT";
 			ContentText.setHitbox(t.width, t.height);
 			add(ContentText);
+			
+			trace("Final content:\n" + (ContentText.graphic as Text).text);
 		}
 		
 		private function _createBackground(bg:*):void
@@ -125,7 +131,8 @@ package dk.homestead.flashpunk.text
 			var e:Entity;
 			if (bg == null)
 			{
-				e = new Entity();
+				e = new Entity(0, 0, new Canvas(width, height));
+				(e.graphic as Canvas).fill(new Rectangle(0, 0, width, height), 0, 0.5);
 			}
 			else if (bg is Class)
 			{
